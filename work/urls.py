@@ -5,5 +5,8 @@ from . import views
 app_name = 'work'
 urlpatterns = [
     path('index', views.index, name='index'),
-    path('',views.main, name='main')
+    path('',views.main, name='main'),
+    path('info', views.fetch_image_numbers,name='info'),
+    path('img/<int:imgno>', views.fetch_image, name='fetchimg'),
+    path('saveprogress', views.saveprogress, name='saveprogress')
 ]

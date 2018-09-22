@@ -8,9 +8,56 @@ tool.minDistance = 10;
 
 drawing_state = false
 
+var total_image_number = 0
+var current_image_index =0
+var load_attempt_image_index = 0
+
+// var csrftoken = getCookie('csrftoken')
+
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            console.log(cookies[i])
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+$.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+        // if (!(csrfSafeMethod(settings.type) && sameOrigin(settings.url))) {
+        //     // if (!csrfSafeMethod(settings.type) && !this.crossDomain){
+        //     // Send the token to same-origin, relative URLs only.
+        //     // Send the token only if the method warrants CSRF protection
+        //     // Using the CSRFToken value acquired earlier
+        //     // xhr.setRequestHeader("X-CSRFToken", "CcVK5u7uUKZAxa3is9ROgd8o9oX31rLBFc61hePIWgc5WxcerxbMJWizz86Qldok");
+        //     xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+        // }
+        // console.log("adding ",getCookie('csrftoken'))
+        xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+    },
+    crossDomain: true,
+    xhrFields: {
+        withCredentials: true
+    }
+    
+});
+
 
 
 console.log(paper.project)
+
+// window.addEventListener("load",function(this,ev){
+// 	console.log("window load triggered")
+// }, false)
 
 
 // init
@@ -18,58 +65,147 @@ console.log(paper.project)
 // var raster = new Raster('testimg')
 // raster.position = view.center
 
+
 console.log(paper)
 
+var SERVER_BASE_ADDR = "http://localhost:8000"
+
+function fetch_total_image_number() {
+    // var xhttp = new XMLHttpRequest()
+    // xhttp.onreadystatechange = function() {
+    //     if (this.readyState == 4 && this.status == 200) {
+    //         console.log("response:", JSON.parse(this.responseText))
+    //         total_image_number = JSON.parse(this.responseText).number_of_images
+    //     }
+    // }
+
+    var sendaddr = SERVER_BASE_ADDR +"/info"
+    // console.log("sending to ", sendaddr)
+    // xhttp.open("POST", sendaddr)
+    // xhttp.send()
+
+    // $.post(sendaddr,{},function(data,status){
+    //     console.log("info response",data,status)
+    // })
+    $.ajax({
+        url: sendaddr,
+        type: 'get',
+
+        // headers: {
+        //     "X-CSRFToken": csrftoken
+        // },
+        xhrFields: {
+            withCredentials: true
+        },
+        dataType: 'json',
+        success: function(data) {
+            console.log("whwhahaht")
+            console.log("ajax success", data)
+            total_image_number = data.number_of_images
+
+        }
+    })
+}
+
+function goto_next_image(){
+	load_attempt_image_index = current_image_index+1
+	var retval = load_image(load_attempt_image_index)
+	if(!retval){
+		console.log("cannot proceed to next image index")
+	}
+	
+}
 
 
-var background = new Raster({source: 'test.png', position:view.center})
+function goto_prev_image(){
+	load_attempt_image_index = current_image_index -1
+	var retval = load_image(load_attempt_image_index)
+	if(!retval){
+		console.log("cannot proceed to prev image index")
+	}
+}
 
-var img_original_w = background.width
-var img_original_h = background.height
+function load_image(image_number){
+	// check if imagenumber is valid
+	if(image_number<0 || image_number > (total_image_number-1)){
+		return false
+	}
 
-var backrect = new Path.Rectangle({
-	point:[0,0],
-	size:[img_original_w, img_original_h],
-	fillColor: 'white'
-})
+	var new_img_url= SERVER_BASE_ADDR+"/img/" + image_number
+	// console.log("url:", sendurl)
+	background.set({source: new_img_url})
 
-backrect.sendToBack()
+	return true
 
-var img_aspect_ratio = img_original_w / img_original_h
+	
+}
 
-console.log("img original w,h:",img_original_w, img_original_h)
-
-
-var project_width = paper.project.view.size.width
-var project_height = paper.project.view.size.height
-
-console.log("original project size:", project_width, project_height)
-
-var changed_project_width = Math.round(project_height * img_aspect_ratio)
-var changed_project_height = Math.round(project_height)
-
-// console.log(changed_project_width)
+fetch_total_image_number()
 
 
+// var background = new Raster({source: 'test.png', position:view.center})
+var background = new Raster({source: 'http://localhost:8000/img/0', position:view.center})
+var backrect = null
 
-var newsize = new Size(changed_project_width, changed_project_height)
-
-// paper.project.view.size.set(newsize)
-paper.view.viewSize.width = changed_project_width
-paper.view.viewSize.height = changed_project_height
-
-console.log("new project size:", paper.project.view.size)
-
-background.set({width: changed_project_width, height: changed_project_height, position:view.center})
-backrect.set({width: changed_project_width, height: changed_project_height})
-
-console.log("after changed background img size:", background.width, background.height)
+background.onLoad = function(){
+	
+	current_image_index = load_attempt_image_index
+	console.log("raster onload")
+	reinit_project()
+}
 
 
+function reinit_project(){
 
-// create new project
+	var img_original_w = background.width
+	var img_original_h = background.height
 
-console.log(background)
+	// backrect = new Path.Rectangle({
+	// 	point:[0,0],
+	// 	size:[img_original_w, img_original_h],
+	// 	fillColor: 'white'
+	// })
+
+	// backrect.sendToBack()
+
+	var img_aspect_ratio = img_original_w / img_original_h
+
+	console.log("img original w,h:",img_original_w, img_original_h)
+
+
+	var project_width = paper.project.view.size.width
+	var project_height = paper.project.view.size.height
+
+	console.log("original project size:", project_width, project_height)
+
+	var changed_project_width = Math.round(project_height * img_aspect_ratio)
+	var changed_project_height = Math.round(project_height)
+
+	// console.log(changed_project_width)
+
+
+
+	var newsize = new Size(changed_project_width, changed_project_height)
+
+	// paper.project.view.size.set(newsize)
+	paper.view.viewSize.width = changed_project_width
+	paper.view.viewSize.height = changed_project_height
+
+	console.log("new project size:", paper.project.view.size)
+
+	background.set({width: changed_project_width, height: changed_project_height, position:view.center})
+	// backrect.set({width: changed_project_width, height: changed_project_height})
+
+	console.log("after changed background img size:", background.width, background.height)
+
+
+
+	// create new project
+
+	console.log(background)
+
+}
+
 
 
 
@@ -223,45 +359,75 @@ function remove_path_from_total_path_list(path){
 	console.log("no remove from total path array done")
 }
 
+function saveprogress(){
+	var exported_json = paper.project.exportJSON({asString:false})
+	console.log(exported_json)
+
+	// extract only the paths
+	var firstlayer = exported_json[0]
+	// console.log(firstitem)
+
+	var what = firstlayer[1]
+	console.log(what)
+
+
+	var patharray=[]
+	var i
+	for(i=0;i< what.children.length;i++){
+		console.log(what.children[i])
+		if(what.children[i][0]=="Path"){
+			patharray.push(what.children[i])
+		}
+	}
+
+	var sendjson={}
+	sendjson.image_number = current_image_index
+	sendjson.path_array=patharray
+
+	
+
+	saveprogress_url = SERVER_BASE_ADDR+"/saveprogress"
+
+	console.log("sendjson:", sendjson)
+
+	$.ajax({
+		url: saveprogress_url,
+		type: 'post',
+		xhrFields: {
+			withCredentials: true
+		},
+		data: JSON.stringify(sendjson),
+		success: function(data){
+			console.log("saveprogress success", data)
+		}
+	})
+}
+
 
 function onKeyDown(event){
+	console.log(event.key)
 	if(event.key=='delete'){
 		console.log("delete pressed")
 		del_selected_paths()
 	}
 	
 	else if(event.key=='s'){
-
-		var link = document.getElementById("savecanvas")
+		saveprogress()
 		
-		console.log("s pressed")
-
-		background.visible = false
-
-		paper.view.element.toBlob(function(blob) {
-			link.href = URL.createObjectURL(blob);
-			// console.log(something)
-			console.log(link)
-			link.onclick = function(event){
-				console.log("inside link onclick")
-				background.visible = true
-
-				event.preventDefault()
-			};
-
-			console.log("about to click...")
-			link.click()
-
-			
-		},'image/png')
-
-		
-
 	}
 
 	else if(event.key=='h'){
 		console.log('h pressed')
 
 		background.visible= !background.visible
+	}
+
+	else if(event.key=="page-down"){
+		console.log("page down pressed")
+		goto_next_image()
+	}
+	else if(event.key=='page-up'){
+		console.log("page up pressed")
+		goto_prev_image()
 	}
 }

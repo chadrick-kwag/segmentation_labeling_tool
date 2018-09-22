@@ -4,17 +4,28 @@
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <!-- Load the Paper.js library -->
 {% load static%}
-<script type="text/javascript" src="{% static 'js/paper-full.js'%}"></script>
-<!-- Define inlined PaperScript associate it with myCanvas -->
-<script type="text/paperscript" src="{%static 'js/myscript.js'%}" canvas="myCanvas">
+
 </script>
 </head>
 <body style="height:90%">
-    <div style="height:100%" align="center">
+    <div style="height:90%" align="center">
         <canvas id="myCanvas" resize="true" style="height:100%;border:2px solid black"></canvas>
     </div>
-    <img src="test.png" id="testimg" style="display:none"/>
+
+    <div>
+        <p>
+            Page down: next image
+        </p>
+        <p>
+            Page up: previous image
+        </p>
+    </div>
+    <!-- <img src="test.png" id="testimg" style="display:none"/> -->
     <a id="savecanvas" download="output.png"></a>
-	
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="{% static 'js/paper-full.js'%}"></script>
+<!-- Define inlined PaperScript associate it with myCanvas -->
+<script type="text/paperscript" src="{%static 'js/myscript.js'%}" canvas="myCanvas">
 </body>
 </html>
