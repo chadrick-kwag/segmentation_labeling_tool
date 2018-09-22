@@ -147,11 +147,80 @@ fetch_total_image_number()
 var background = new Raster({source: 'http://localhost:8000/img/0', position:view.center})
 var backrect = null
 
+
+
+
 background.onLoad = function(){
 	
 	current_image_index = load_attempt_image_index
+	// path_array=[]
+	erase_all_paths()
 	console.log("raster onload")
-	reinit_project()
+
+	fetch_savedprogress(current_image_index)
+
+	
+}
+
+
+function erase_all_paths(){
+	var i
+	for(i=0;i<path_arrays.length;i++){
+		var path = path_arrays[i]
+		path.remove()
+	}
+
+	path_arrays=[]
+}
+
+function fetch_savedprogress(imgno){
+	var sendurl = SERVER_BASE_ADDR+"/fetchprogress/" + imgno
+
+	$.ajax({
+        url: sendurl,
+        type: 'get',
+
+        // headers: {
+        //     "X-CSRFToken": csrftoken
+        // },
+        xhrFields: {
+            withCredentials: true
+        },
+        dataType: 'json',
+        success: function(data) {
+            console.log("whwhahaht")
+            console.log("ajax success", data)
+			
+			if(data.succeed){
+				console.log("fetched path data:", data.pathdata)
+
+				var pathdata=data.pathdata
+				var i
+				for(i=0;i<pathdata.length;i++){
+					var realpathdata = pathdata[i][1]
+					console.log("realpathdata:",realpathdata)
+
+					var path = new Path(realpathdata)
+					path.onClick = function(event){
+						this.fullySelected = !this.fullySelected
+						
+					}
+					path_arrays.push(path)
+
+
+				}
+
+				reinit_project()
+			}
+			else{
+				console.log("fetch saved progress is fail")
+				reinit_project()
+
+			}
+
+        }
+    })
+	
 }
 
 
@@ -414,6 +483,10 @@ function onKeyDown(event){
 	else if(event.key=='s'){
 		saveprogress()
 		
+	}
+
+	else if(event.key=='a'){
+		console.log(path_arrays)
 	}
 
 	else if(event.key=='h'){

@@ -1,7 +1,7 @@
 from django.shortcuts import render
 
 # Create your views here.
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 
 from mysite1.settings import STATIC_DIR
 import os, json
@@ -92,3 +92,21 @@ def saveprogress(request):
 
 
     return HttpResponse("test response")
+
+
+
+def fetchprogress(request, imgno):
+    if imgno <0 or imgno > len(filename_map):
+        print("imgno incorrect")
+        return JsonResponse({'succeed': False,'failreason':'incorrect imgno'})
+    
+    fetch_savefilepath = os.path.join(savedirpath, "{:04d}.json".format(imgno))
+
+    if not os.path.exists(fetch_savefilepath):
+        print("{} not found".format(fetch_savefilepath))
+        return JsonResponse({'succeed': False,'failreason':"file not exist"})
+    
+    with open(fetch_savefilepath,'r') as fd:
+        readjson = json.load(fd)
+    
+    return JsonResponse({'succeed': True, 'pathdata': readjson})
