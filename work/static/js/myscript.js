@@ -162,6 +162,38 @@ background.onLoad = function(){
 	
 }
 
+function normalize_paths(segments){
+	var img_w = paper.project.view.size.width
+	var img_h = paper.project.view.size.height 
+
+	var i
+	for(i=0;i< segments.length;i++){
+		var sel_segment = segments[i]
+		var j
+		for(j=0;j<sel_segment.length;j++){
+			sel_segment[j][0] = sel_segment[j][0] / img_w
+			sel_segment[j][1] = sel_segment[j][1] / img_h
+		}
+
+	}
+}
+
+function denormalize_paths(segments){
+	var img_w = paper.project.view.size.width
+	var img_h = paper.project.view.size.height 
+
+	var i
+	for(i=0;i< segments.length;i++){
+		var sel_segment = segments[i]
+		var j
+		for(j=0;j<sel_segment.length;j++){
+			sel_segment[j][0] = sel_segment[j][0] * img_w
+			sel_segment[j][1] = sel_segment[j][1] * img_h
+		}
+
+	}
+}
+
 
 function erase_all_paths(){
 	var i
@@ -192,6 +224,8 @@ function fetch_savedprogress(imgno){
             console.log("ajax success", data)
 			
 			if(data.succeed){
+
+				reinit_project()
 				console.log("fetched path data:", data.pathdata)
 
 				var pathdata=data.pathdata
@@ -199,6 +233,11 @@ function fetch_savedprogress(imgno){
 				for(i=0;i<pathdata.length;i++){
 					var realpathdata = pathdata[i][1]
 					console.log("realpathdata:",realpathdata)
+
+					
+
+					var segments = realpathdata.segments
+					denormalize_paths(segments)
 
 					var path = new Path(realpathdata)
 					path.onClick = function(event){
@@ -210,7 +249,7 @@ function fetch_savedprogress(imgno){
 
 				}
 
-				reinit_project()
+				
 			}
 			else{
 				console.log("fetch saved progress is fail")
@@ -451,9 +490,22 @@ function saveprogress(){
 
 	var sendjson={}
 	sendjson.image_number = current_image_index
-	sendjson.path_array=patharray
+	
+
+	// normalize the paths
+	for(i=0;i<patharray.length;i++){
+		var selpath = patharray[i]
+		var segments = selpath[1].segments
+		console.log("blah:", selpath[1])
+		console.log("before normalizing ", segments[0])
+		normalize_paths(segments)
+		console.log("after normalizing ", segments[0])
+	}
 
 	
+
+
+	sendjson.path_array=patharray
 
 	saveprogress_url = SERVER_BASE_ADDR+"/saveprogress"
 
