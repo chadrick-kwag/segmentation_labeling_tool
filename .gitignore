@@ -1,4 +1,5 @@
 static/images
 static/saves
+static/output
 **/__pycache__
 work/*.png

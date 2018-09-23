@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'work'
+    'work',
+    'channels'
 ]
 
 MIDDLEWARE = [
@@ -122,3 +123,5 @@ STATIC_URL = '/static/'
 
 
 STATIC_DIR = os.path.join(BASE_DIR, 'static')
+
+ASGI_APPLICATION = "mysite1.routing.application"
