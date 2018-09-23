@@ -7,11 +7,21 @@
 
     {% load static%}
     <link rel="stylesheet" href="{%static 'css/bootstrap.min.css'%}">
+    <link rel="stylesheet" href="{%static 'css/custom.css'%}">
     
 
 </head>
 
 <body style="height:90%">
+
+    <div id="progress_screen" class="overlay">
+        <div align="right">
+            <button class="btn btn-primary" id="close_overlay_btn">close</button>
+        </div>
+        <div class="progress_content">
+            <span id="progress_textspan">0%</span>
+        </div>
+    </div>
 
     <div class="container" style="height:10%">
         <div class="row" style="height:100%">
