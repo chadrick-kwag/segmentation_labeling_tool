@@ -1,3 +1,7 @@
+$(function () {
+	$('[data-toggle="tooltip"]').tooltip()
+  })
+
 var path = null;
 var path_arrays = [];
 var selected_path_array=[]
@@ -119,7 +123,7 @@ function fetch_total_image_number() {
 			console.log($("#total_image_number_span"))
 			
 
-			$("#total_image_number_span").text(total_image_number - 1)
+			$("#total_image_number_span").text(total_image_number )
 			console.log("after setting total_image_number_span", $("#total_image_number_span").text())
 
         }
@@ -509,7 +513,7 @@ function remove_path_from_total_path_list(path){
 	console.log("no remove from total path array done")
 }
 
-function saveprogress(){
+function saveprogress(successcallback){
 	var exported_json = paper.project.exportJSON({asString:false})
 	console.log(exported_json)
 
@@ -562,6 +566,7 @@ function saveprogress(){
 		data: JSON.stringify(sendjson),
 		success: function(data){
 			console.log("saveprogress success", data)
+			successcallback()
 		}
 	})
 }
@@ -583,18 +588,14 @@ function onKeyDown(event){
 		console.log(path_arrays)
 	}
 
-	else if(event.key=='h'){
-		console.log('h pressed')
-
-		background.visible= !background.visible
-	}
-
 	else if(event.key=="page-down"){
 		console.log("page down pressed")
-		goto_next_image()
+		saveprogress(goto_next_image)
+		// goto_next_image()
 	}
 	else if(event.key=='page-up'){
 		console.log("page up pressed")
-		goto_prev_image()
+		saveprogress(goto_prev_image)
+		// goto_prev_image()
 	}
 }
