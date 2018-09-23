@@ -9,7 +9,7 @@ a very simple/rought version for prototype
 
 
 ## Developent Environment
-It is recommended to follow the this development environment as much as possible.
+It is recommended to follow this development environment as much as possible.
 
 - Ubuntu 18.04.1 LTS
 - python3(3.6.5)
