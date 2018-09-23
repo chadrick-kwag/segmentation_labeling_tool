@@ -11,7 +11,9 @@ def generate_converted_pngs(imagedir, savedir, converted_output_dir, middle_call
     
 
     for image_no in range(len(image_file_list)):
-        img_filepath =  os.path.join(imagedir, image_file_list[image_no])
+        imgfilename = image_file_list[image_no]
+        imgbasename , _ = os.path.splitext(imgfilename)
+        img_filepath =  os.path.join(imagedir, imgfilename)
         json_filepath = os.path.join(savedir, "{:04d}.json".format(image_no))
 
         orig_img = cv2.imread(img_filepath)
@@ -63,7 +65,8 @@ def generate_converted_pngs(imagedir, savedir, converted_output_dir, middle_call
         # img = cv2.polylines(draw_array, [path],1, (255,255,255), 3)
 
         img = cv2.fillPoly(draw_array,cv2_polys, (255,255,255))
-        output_filepath = os.path.join(converted_output_dir, "{:04d}.png".format(image_no))
+        outputfilename = "mask_{}.png".format(imgbasename)
+        output_filepath = os.path.join(converted_output_dir, outputfilename)
         cv2.imwrite(output_filepath, img)
 
         if image_no != (len(image_file_list) -1):
