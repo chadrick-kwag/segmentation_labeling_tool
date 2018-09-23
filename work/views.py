@@ -110,3 +110,14 @@ def fetchprogress(request, imgno):
         readjson = json.load(fd)
     
     return JsonResponse({'succeed': True, 'pathdata': readjson})
+
+
+def launch_conversion(request):
+    # check if number of saves match number of images
+    savefiles = os.listdir(savedirpath)
+
+    if len(savefiles) != len(filename_map):
+        return JsonResponse({'launch_possible': False})
+    
+    
+    return JsonResponse({'launch_possible': True})

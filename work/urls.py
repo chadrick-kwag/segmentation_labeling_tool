@@ -10,4 +10,5 @@ urlpatterns = [
     path('img/<int:imgno>', views.fetch_image, name='fetchimg'),
     path('saveprogress', views.saveprogress, name='saveprogress'),
     path('fetchprogress/<int:imgno>', views.fetchprogress, name='fetchprogress'),
+    path('convert',views.launch_conversion, name='launchconversion')
 ]

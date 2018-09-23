@@ -1,6 +1,4 @@
-$(function () {
-	$('[data-toggle="tooltip"]').tooltip()
-  })
+
 
 var path = null;
 var path_arrays = [];
@@ -81,6 +79,8 @@ console.log(paper.project)
 
 
 console.log(paper)
+
+document.SERVER_BASE_ADDR = "http://localhost:8000"
 
 var SERVER_BASE_ADDR = "http://localhost:8000"
 
