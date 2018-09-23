@@ -43,10 +43,9 @@ $("#convert_btn").click(function(){
                 try_connect_channel()
             }
             else{
-                alert("cannot launch conversion due to incomplete labeling")
+                var failreason = data.fail_reason
+                alert("cannot launch conversion.\ncause: "+ failreason)
             }
-
-            
         }
     })
 })

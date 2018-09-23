@@ -28,8 +28,6 @@ def main(request):
 
 
 def fetch_image_numbers(request):
-    # imagedirpath = os.path.join(STATIC_DIR,'images')
-    # filelist = os.listdir(imagedirpath)
 
     returnjson={}
     returnjson['number_of_images'] = len(filelist)
@@ -39,13 +37,6 @@ def fetch_image_numbers(request):
 
 
 def fetch_image(request, imgno):
-
-    # imagedirpath = os.path.join(STATIC_DIR,'images')
-    # filelist = os.listdir(imagedirpath)
-
-    # filelist = sorted(filelist)
-
-    # selected_file = filelist[imgno]
 
     selected_file = filename_map[imgno]
     selected_file_fullpath = os.path.join(imagedirpath, selected_file)
@@ -73,9 +64,6 @@ def saveprogress(request):
         return HttpResponse("no body")
     if len(request.body) ==0:
         return HttpResponse("body length is zero")
-    # print("whaaaat")
-    # print(request.body)
-
 
     request_jsondata = json.loads(request.body.decode('utf-8'))
 
@@ -117,7 +105,22 @@ def launch_conversion(request):
     savefiles = os.listdir(savedirpath)
 
     if len(savefiles) != len(filename_map):
-        return JsonResponse({'launch_possible': False})
+        return JsonResponse({'launch_possible': False, 'fail_reason': "insufficient labeling"})
+
+    # check for any empty json save files
+    empty_files_count =0
+    for savefile in savefiles:
+        savefilepath = os.path.join(savedirpath, savefile)
+
+        with open(savefilepath, 'r') as fd:
+            savejson = json.load(fd)
+        
+        if len(savejson)==0:
+            empty_files_count+=1
+    
+    if empty_files_count >0:
+        return JsonResponse({'launch_possible': False, 'fail_reason': "{} image saves are empty saves".format(empty_files_count)})
+        
     
     
     return JsonResponse({'launch_possible': True})
