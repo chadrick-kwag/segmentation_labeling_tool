@@ -1,18 +1,34 @@
 <!DOCTYPE html>
 <html style="height:100%">
-<head>
-<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<!-- Load the Paper.js library -->
-{% load static%}
 
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
 </head>
+
 <body style="height:90%">
-    <div style="height:90%" align="center">
+
+    <div class="container" style="height:10%">
+        <div class="row" style="height:100%">
+            <div class="col">
+                
+            </div>
+            <div class="col-8" align="center">
+                <input type="range" id="progress_slidebar" min="0" max="100" />
+            </div>
+            <div class="col">
+                <span id="current_index_span">0</span> / <span id="total_image_number_span">0</span>
+            </div>
+        </div>
+
+    </div>
+    <div style="height:80%" align="center">
         <canvas id="myCanvas" resize="true" style="height:100%;border:2px solid black"></canvas>
     </div>
 
-    <div>
+    <div style="height:10%">
         <p>
             Page down: next image
         </p>
@@ -24,8 +40,14 @@
     <a id="savecanvas" download="output.png"></a>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    {% load static%}
     <script type="text/javascript" src="{% static 'js/paper-full.js'%}"></script>
-<!-- Define inlined PaperScript associate it with myCanvas -->
-<script type="text/paperscript" src="{%static 'js/myscript.js'%}" canvas="myCanvas"></script>
+    <!-- Define inlined PaperScript associate it with myCanvas -->
+    <script type="text/paperscript" src="{%static 'js/myscript.js'%}" canvas="myCanvas"></script>
 </body>
+
 </html>

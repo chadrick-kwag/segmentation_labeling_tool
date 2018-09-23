@@ -12,6 +12,16 @@ var total_image_number = 0
 var current_image_index =0
 var load_attempt_image_index = 0
 
+var slidebar = document.getElementById("progress_slidebar")
+
+slidebar.addEventListener("mouseup",function(){
+	var new_slidebar_value = this.value
+	if(new_slidebar_value != current_image_index){
+		goto_specific_imageno(new_slidebar_value)
+		
+	}
+})
+
 // var csrftoken = getCookie('csrftoken')
 
 function getCookie(name) {
@@ -101,24 +111,41 @@ function fetch_total_image_number() {
         success: function(data) {
             console.log("whwhahaht")
             console.log("ajax success", data)
-            total_image_number = data.number_of_images
+			total_image_number = data.number_of_images
+			
+			slidebar.setAttribute("max", total_image_number-1)
+			console.log("slidbar max attribute after setting it", slidebar.max)
+
+			console.log($("#total_image_number_span"))
+			
+
+			$("#total_image_number_span").text(total_image_number - 1)
+			console.log("after setting total_image_number_span", $("#total_image_number_span").text())
 
         }
     })
 }
 
 function goto_next_image(){
-	load_attempt_image_index = current_image_index+1
+	load_attempt_image_index = parseInt(current_image_index)+ 1
 	var retval = load_image(load_attempt_image_index)
 	if(!retval){
-		console.log("cannot proceed to next image index")
+		console.log("cannot proceed to next image index. current imageindex:", current_image_index)
 	}
 	
 }
 
+function goto_specific_imageno(imageno){
+	load_attempt_image_index = imageno
+	var retval = load_image(load_attempt_image_index)
+	if(!retval){
+		console.log("cannot execute load_image with new index:", load_attempt_image_index)
+	}
+}
+
 
 function goto_prev_image(){
-	load_attempt_image_index = current_image_index -1
+	load_attempt_image_index = parseInt(current_image_index) -1
 	var retval = load_image(load_attempt_image_index)
 	if(!retval){
 		console.log("cannot proceed to prev image index")
@@ -140,7 +167,7 @@ function load_image(image_number){
 	
 }
 
-fetch_total_image_number()
+
 
 
 // var background = new Raster({source: 'test.png', position:view.center})
@@ -149,10 +176,25 @@ var backrect = null
 
 
 
+fetch_total_image_number()
+
 
 background.onLoad = function(){
+
+	
 	
 	current_image_index = load_attempt_image_index
+
+	console.log("current_image_index after backimg onload", current_image_index)
+
+	slidebar.value = current_image_index
+	console.log("slidebar value after background onload:", slidebar.value)
+
+
+	// update current index span value
+	$("#current_index_span").text(parseInt(current_image_index) +1)
+
+	
 	// path_array=[]
 	erase_all_paths()
 	console.log("raster onload")
