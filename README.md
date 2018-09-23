@@ -8,14 +8,20 @@ a very simple/rought version for prototype
 ![output file sample](/docs/output_screenshot.png)
 
 
-## Requirements
-- python3 (developed with python3.6.5)
-- Web Browser(Firefox recommended since it was developed with it. Developed with Firefox 62.0 64-bit)
+## Developent Environment
+It is recommended to follow the this development environment as much as possible.
+
+- Ubuntu 18.04.1 LTS
+- python3(3.6.5)
+- Firefox 62.0 64-bit
+
+
+## Caution
+
+Please note that in order to reduce development time, this django project may not have followed the best practices. For instance, the current version does not use any databases and no dataset management is implemented. Also, there are a lot of bugs lurking around.
 
 
 ## Getting Started
-
-Please note that in order to reduce development time, this django project may not have followed the best practices. For instance, the current version does not use any databases and no dataset management is implemented. Also, there are a lot of bugs lurking around.
 
 ### 1. prepare python virtual environment and install necessary packages
 
