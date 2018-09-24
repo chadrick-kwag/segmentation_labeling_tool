@@ -2,6 +2,7 @@ from django.shortcuts import render
 
 # Create your views here.
 from django.http import HttpResponse, JsonResponse
+from django.views.decorators.csrf import csrf_exempt 
 
 from mysite1.settings import STATIC_DIR
 import os, json
@@ -59,6 +60,7 @@ def fetch_image(request, imgno):
         return HttpResponse(f.read(), content_type=content_type)
     
     
+@csrf_exempt
 def saveprogress(request):
     if request.body is None:
         return HttpResponse("no body")
