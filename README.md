@@ -20,6 +20,8 @@ It is recommended to follow this development environment as much as possible.
 
 Please note that in order to reduce development time, this django project may not have followed the best practices. For instance, the current version does not use any databases and no dataset management is implemented. Also, there are a lot of bugs lurking around.
 
+By default, the django will run in DEBUG mode.
+
 
 ## Getting Started
 
@@ -40,10 +42,16 @@ $ pip install -r requirements.txt
 ### 4. run server
 
 ```
-$ python manager.py runserver
+$ python manage.py runserver
 ```
 
-by default it should run on port 8000.
+by default it should run on port 8000. If you wish to allow LAN network to access the server, then use the following command
+
+```
+$ python manage.py runserver 0.0.0.0:8000
+```
+
+
 
 ### 5. open web browser and start labeling. 
 

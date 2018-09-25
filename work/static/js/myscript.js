@@ -43,6 +43,8 @@ function getCookie(name) {
     return cookieValue;
 }
 
+
+
 $.ajaxSetup({
     beforeSend: function(xhr, settings) {
         // if (!(csrfSafeMethod(settings.type) && sameOrigin(settings.url))) {
@@ -65,68 +67,32 @@ $.ajaxSetup({
 
 
 
-console.log(paper.project)
+document.SERVER_BASE_ADDR = window.location.origin
 
-// window.addEventListener("load",function(this,ev){
-// 	console.log("window load triggered")
-// }, false)
-
-
-// init
-
-// var raster = new Raster('testimg')
-// raster.position = view.center
-
-
-console.log(paper)
-
-document.SERVER_BASE_ADDR = "http://localhost:8000"
-
-var SERVER_BASE_ADDR = "http://localhost:8000"
+var SERVER_BASE_ADDR = window.location.origin
 
 function fetch_total_image_number() {
-    // var xhttp = new XMLHttpRequest()
-    // xhttp.onreadystatechange = function() {
-    //     if (this.readyState == 4 && this.status == 200) {
-    //         console.log("response:", JSON.parse(this.responseText))
-    //         total_image_number = JSON.parse(this.responseText).number_of_images
-    //     }
-    // }
-
-    var sendaddr = SERVER_BASE_ADDR +"/info"
-    // console.log("sending to ", sendaddr)
-    // xhttp.open("POST", sendaddr)
-    // xhttp.send()
-
-    // $.post(sendaddr,{},function(data,status){
-    //     console.log("info response",data,status)
-    // })
+   
+	var sendaddr = SERVER_BASE_ADDR +"/info"
+	
     $.ajax({
         url: sendaddr,
         type: 'get',
-
-        // headers: {
-        //     "X-CSRFToken": csrftoken
-        // },
         xhrFields: {
             withCredentials: true
         },
         dataType: 'json',
         success: function(data) {
-            console.log("whwhahaht")
-            console.log("ajax success", data)
 			total_image_number = data.number_of_images
 			
 			slidebar.setAttribute("max", total_image_number-1)
-			console.log("slidbar max attribute after setting it", slidebar.max)
-
-			console.log($("#total_image_number_span"))
 			
-
 			$("#total_image_number_span").text(total_image_number )
-			console.log("after setting total_image_number_span", $("#total_image_number_span").text())
 
-        }
+		},
+		error: function(e){
+			console.log("ajax error occured")
+		}
     })
 }
 
@@ -163,7 +129,6 @@ function load_image(image_number){
 	}
 
 	var new_img_url= SERVER_BASE_ADDR+"/img/" + image_number
-	// console.log("url:", sendurl)
 	background.set({source: new_img_url})
 
 	return true
@@ -172,10 +137,9 @@ function load_image(image_number){
 }
 
 
+var init_img_url = SERVER_BASE_ADDR+"/img/0"
 
-
-// var background = new Raster({source: 'test.png', position:view.center})
-var background = new Raster({source: 'http://localhost:8000/img/0', position:view.center})
+var background = new Raster({source: init_img_url, position:view.center})
 var backrect = null
 
 
@@ -258,17 +222,11 @@ function fetch_savedprogress(imgno){
         url: sendurl,
         type: 'get',
 
-        // headers: {
-        //     "X-CSRFToken": csrftoken
-        // },
         xhrFields: {
             withCredentials: true
         },
         dataType: 'json',
         success: function(data) {
-            console.log("whwhahaht")
-            console.log("ajax success", data)
-			
 			if(data.succeed){
 
 				reinit_project()
@@ -278,9 +236,6 @@ function fetch_savedprogress(imgno){
 				var i
 				for(i=0;i<pathdata.length;i++){
 					var realpathdata = pathdata[i][1]
-					console.log("realpathdata:",realpathdata)
-
-					
 
 					var segments = realpathdata.segments
 					denormalize_paths(segments)
@@ -314,49 +269,25 @@ function reinit_project(){
 	var img_original_w = background.width
 	var img_original_h = background.height
 
-	// backrect = new Path.Rectangle({
-	// 	point:[0,0],
-	// 	size:[img_original_w, img_original_h],
-	// 	fillColor: 'white'
-	// })
-
-	// backrect.sendToBack()
-
 	var img_aspect_ratio = img_original_w / img_original_h
 
-	console.log("img original w,h:",img_original_w, img_original_h)
 
 
 	var project_width = paper.project.view.size.width
 	var project_height = paper.project.view.size.height
 
-	console.log("original project size:", project_width, project_height)
 
 	var changed_project_width = Math.round(project_height * img_aspect_ratio)
 	var changed_project_height = Math.round(project_height)
 
-	// console.log(changed_project_width)
-
-
 
 	var newsize = new Size(changed_project_width, changed_project_height)
 
-	// paper.project.view.size.set(newsize)
 	paper.view.viewSize.width = changed_project_width
 	paper.view.viewSize.height = changed_project_height
 
-	console.log("new project size:", paper.project.view.size)
 
 	background.set({width: changed_project_width, height: changed_project_height, position:view.center})
-	// backrect.set({width: changed_project_width, height: changed_project_height})
-
-	console.log("after changed background img size:", background.width, background.height)
-
-
-
-	// create new project
-
-	console.log(background)
 
 }
 
@@ -400,7 +331,6 @@ function return_any_hit_paths_v2(event){
 
 function onMouseDown(event) {
 
-	console.log("mouse down2222333");
 
 	if (path == null) {
 		drawing_state = true
@@ -410,11 +340,9 @@ function onMouseDown(event) {
 		return;
 	}
 
-	// var hitresult = path.hitTest(event.point, { handles: true, tolerance: 10 })
 
 	selected_path = return_any_hit_paths(event)
 
-	// console.log("hitresult1111", hitresult);
 
 	if (selected_path) {
 		drawing_state = false
@@ -444,7 +372,6 @@ function onMouseDrag(event) {
 }
 
 function update_selected_paths(){
-	console.log("inside update_selected_paths")
 	var i;
 	selected_path_array=[]
 	for(i=0;i< path_arrays.length;i++){
@@ -453,14 +380,6 @@ function update_selected_paths(){
 			selected_path_array.push(sel_path)
 		}
 	}
-
-	console.log("updated selected paths size:", selected_path_array.length)
-
-	// for(i=0;i<path_arrays.length;i++){
-	// 	console.log(path_arrays[i])
-	// }
-
-	console.log(paper.project.view.size)
 }
 
 function onMouseUp(event) {
@@ -519,7 +438,6 @@ function saveprogress(successcallback){
 
 	// extract only the paths
 	var firstlayer = exported_json[0]
-	// console.log(firstitem)
 
 	var what = firstlayer[1]
 	console.log(what)
@@ -555,7 +473,6 @@ function saveprogress(successcallback){
 
 	saveprogress_url = SERVER_BASE_ADDR+"/saveprogress"
 
-	console.log("sendjson:", sendjson)
 
 	$.ajax({
 		url: saveprogress_url,
@@ -591,11 +508,9 @@ function onKeyDown(event){
 	else if(event.key=="page-down"){
 		console.log("page down pressed")
 		saveprogress(goto_next_image)
-		// goto_next_image()
 	}
 	else if(event.key=='page-up'){
 		console.log("page up pressed")
 		saveprogress(goto_prev_image)
-		// goto_prev_image()
 	}
 }
