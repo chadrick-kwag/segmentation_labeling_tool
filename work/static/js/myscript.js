@@ -84,6 +84,11 @@ $("#remove_all_btn").click(function(e){
 	
 })
 
+
+$("#manual_save_btn").click(function(e){
+	saveprogress()
+})
+
 // var csrftoken = getCookie('csrftoken')
 
 function getCookie(name) {
