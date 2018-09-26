@@ -24,6 +24,40 @@ slidebar.addEventListener("pointerup", function(){
 	}
 })
 
+
+$("#current_index_textbox").on("keypress",function(e){
+	if(e.which===13){
+		$(this).attr("disabled","disabled")
+
+		var inputvalue = $(this).val()
+
+		inputvalue = parseInt(inputvalue)
+
+		if(Number.isInteger(inputvalue)){
+			console.log("integer confirmed")
+
+			if(inputvalue<=0 || inputvalue > parseInt(total_image_number)){
+				alert("input out of range")
+				$(this).val(parseInt(current_image_index+1))
+				
+			}
+			else{
+				var zerobase_attempt_index = parseInt(inputvalue -1)
+				goto_specific_imageno(zerobase_attempt_index)
+			}
+			
+
+		}
+		else{
+			alert("please input an integer")
+			$(this).val(parseInt(current_image_index+1))
+
+		}
+
+		$(this).removeAttr("disabled")
+	}
+})
+
 // var csrftoken = getCookie('csrftoken')
 
 function getCookie(name) {
@@ -160,7 +194,8 @@ background.onLoad = function(){
 
 
 	// update current index span value
-	$("#current_index_span").text(parseInt(current_image_index) +1)
+	// $("#current_index_span").text(parseInt(current_image_index) +1)
+	$("#current_index_textbox").val(parseInt(current_image_index) +1)
 
 	
 	// path_array=[]
