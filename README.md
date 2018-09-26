@@ -13,7 +13,7 @@ It is recommended to follow this development environment as much as possible.
 
 - Ubuntu 18.04.1 LTS
 - python3(3.6.5)
-- Firefox 62.0 64-bit
+- Firefox 62.0 64-bit / Chrome Version 69.0.3497.100 (Official Build) (64-bit)
 
 
 ## Caution
@@ -62,15 +62,21 @@ $ python manage.py runserver 0.0.0.0:8000
 ## How to use the web interface
 
 ### navigation
+
 - With `PageUp` and `PageDown` key user can navigate through the image to label. When navigating with this method, labeling progress will be saved automatically.
-- The user can navigate through images with the slidebar on the top as well. When navigating with this method, labeling progress will **NOT** be saved automatically. (**VERY BUGGY. PLEASE AVOID USING THIS FOR NOW AS MUCH AS POSSIBLE**)
+- The user can navigate through images with the slidebar on the top as well. When navigating with this method, labeling progress will **NOT** be saved automatically.
 - User can save the current image's labeling progress manually by pressing `s` button.
+- Left and Right navigation buttons are available for mobile devices.
+- On the top-right, there is a slide bar where the user can navigate to a specific point at once
+- For fine navigation, the user can insert a valid index number in the textbox to move to a specific image at once.
+
 
 ### drawing
 - draw the area by pushing mouse down, dragging around the area, and releasing the mouse click.
 - user can select the area by clicking on the edge of a path.
 - once a path is selected, it can be deleted by pressing the `delete` button
 - multiple paths can be selected simultaneously
+- on the top, there are three buttons for editing paths. These are implemented for mobile devices.
 
 ### converting
 - When labeling is all done and the user is ready to convert all the labeling data into actual masked `.png` files, click the `convert` button on bottom-left of the screen.
