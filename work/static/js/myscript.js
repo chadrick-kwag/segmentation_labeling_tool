@@ -506,15 +506,22 @@ function onKeyDown(event){
 
 	else if(event.key=="page-down"){
 		console.log("page down pressed")
-		saveprogress(goto_next_image)
+		save_and_goto_next_image()
 	}
 	else if(event.key=='page-up'){
 		console.log("page up pressed")
-		saveprogress(goto_prev_image)
+		save_and_goto_prev_image()
 	}
 }
 
+function save_and_goto_next_image(){
+	saveprogress(goto_next_image)
+}
 
-$("#go_prev_btn").click(goto_prev_image)
-$("#go_next_btn").click(goto_next_image)
+function save_and_goto_prev_image(){
+	saveprogress(goto_prev_image)
+}
+
+$("#go_prev_btn").click(save_and_goto_prev_image)
+$("#go_next_btn").click(save_and_goto_next_image)
 

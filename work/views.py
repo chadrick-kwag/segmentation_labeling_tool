@@ -70,13 +70,12 @@ def saveprogress(request):
     request_jsondata = json.loads(request.body.decode('utf-8'))
 
     image_number = request_jsondata["image_number"]
-    print("received save data for image_number={}".format(image_number))
 
     pathdata = request_jsondata["path_array"]
 
     # fetch savefilename
 
-    savefilepath = os.path.join(savedirpath,"{:04d}.json".format(int(image_number)))
+    savefilepath = os.path.join(savedirpath,"{:04d}.json".format(int(image_number)) )
     with open(savefilepath,'w') as fd:
         json.dump(pathdata,fd)
 
