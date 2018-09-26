@@ -15,7 +15,8 @@ var load_attempt_image_index = 0
 
 var slidebar = document.getElementById("progress_slidebar")
 
-slidebar.addEventListener("mouseup",function(){
+slidebar.addEventListener("pointerup", function(){
+	console.log("pointer up")
 	var new_slidebar_value = this.value
 	if(new_slidebar_value != current_image_index){
 		goto_specific_imageno(new_slidebar_value)

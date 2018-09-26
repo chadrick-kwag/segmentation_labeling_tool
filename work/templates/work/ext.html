@@ -25,13 +25,19 @@
 
     <div class="container" style="height:10%">
         <div class="row align-items-center" style="height:100%">
-            <div class="col">
+            <div class="col-6"> 
+                <div class="d-flex justify-content-around">
+                    <button id="delete_btn" class="btn btn-outline-primary">delete</button>
+                    <button id="remove_all_btn" class="btn btn-outline-primary">remove all</button>
+                    <button id="unselect_all_btn" class="btn btn-outline-primary">unselect all</button>
+                    
+                </div>
 
             </div>
-            <div class="col-8" align="center">
+            <div class="col-4" align="center">
                 <input type="range" id="progress_slidebar" min="0" max="100" />
             </div>
-            <div class="col">
+            <div class="col-2">
                 <span id="current_index_span">0</span> / <span id="total_image_number_span">0</span>
             </div>
         </div>

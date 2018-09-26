@@ -2,6 +2,7 @@ static/images
 static/images*
 static/saves
 static/output
+static/*.zip
 **/__pycache__
 work/*.png
 db.sqlite3
