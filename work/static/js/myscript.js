@@ -1,6 +1,6 @@
 
-var path = null;
 var path_arrays = [];
+var path = null;
 var selected_path_array=[]
 
 // The mouse has to drag at least 20pt
@@ -56,6 +56,32 @@ $("#current_index_textbox").on("keypress",function(e){
 
 		$(this).removeAttr("disabled")
 	}
+})
+
+
+$("#unselect_all_btn").click(function(e){
+	var i;
+	for(i=0;i<path_arrays.length;i++){
+		path_arrays[i].fullySelected = false
+	}
+	selected_path_array=[]
+})
+
+$("#delete_btn").click(function(e){
+	del_selected_paths()
+})
+
+$("#remove_all_btn").click(function(e){
+
+	var i
+	for(i=0;i<path_arrays.length;i++){
+		var sel_path = path_arrays[i]
+		sel_path.remove()
+		
+	}
+
+	path_arrays=[]
+	
 })
 
 // var csrftoken = getCookie('csrftoken')
@@ -436,6 +462,7 @@ function onMouseUp(event) {
 		path.strokeWidth = 10
 		path.fillColor=new Color(1,0,0)
 		path.opacity=0.5
+		path.fullySelected = false
 
 		path_arrays.push(path)
 
@@ -449,6 +476,7 @@ function del_selected_paths(){
 	var i
 	for(i=0;i< selected_path_array.length;i++){
 		var sel_path = selected_path_array[i]
+		
 		sel_path.remove()
 		remove_path_from_total_path_list(sel_path)
 	}
