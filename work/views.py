@@ -76,7 +76,7 @@ def saveprogress(request):
 
     # fetch savefilename
 
-    savefilepath = os.path.join(savedirpath,"{:04d}.json".format(image_number))
+    savefilepath = os.path.join(savedirpath,"{:04d}.json".format(int(image_number)))
     with open(savefilepath,'w') as fd:
         json.dump(pathdata,fd)
 

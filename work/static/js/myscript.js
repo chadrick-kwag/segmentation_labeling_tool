@@ -1,5 +1,4 @@
 
-
 var path = null;
 var path_arrays = [];
 var selected_path_array=[]
@@ -514,3 +513,8 @@ function onKeyDown(event){
 		saveprogress(goto_prev_image)
 	}
 }
+
+
+$("#go_prev_btn").click(goto_prev_image)
+$("#go_next_btn").click(goto_next_image)
+

@@ -70,4 +70,7 @@ function update_progress_value(newvalue){
     }
 }
 
+
+
 $("#close_overlay_btn").click(hide_mask)
+
