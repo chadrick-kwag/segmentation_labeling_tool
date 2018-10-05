@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html style="height:100%">
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    {% load static%}
+    <link rel="stylesheet" href="{%static 'css/bootstrap.min.css'%}">
+    <link rel="stylesheet" href="{%static 'css/custom.css'%}">
+
+
+</head>
+
+<body style="height:90%">
+
+    <div id="progress_screen" class="overlay">
+        <div align="right">
+            <button class="btn btn-primary" id="close_overlay_btn">close</button>
+        </div>
+        <div class="progress_content">
+            <span id="progress_textspan">0%</span>
+        </div>
+    </div>
+
+    <div class="container" style="height:10%">
+        <div class="row align-items-center" style="height:100%">
+            <div class="col-6"> 
+                <div class="d-flex justify-content-around">
+                    <button id="delete_btn" class="btn btn-outline-primary">delete</button>
+                    <button id="remove_all_btn" class="btn btn-outline-primary">remove all</button>
+                    <button id="unselect_all_btn" class="btn btn-outline-primary">unselect all</button>
+                    
+                </div>
+
+            </div>
+            <div class="col-4" align="center">
+                <input type="range" id="progress_slidebar" min="0" max="100" />
+            </div>
+            <div class="col-2">
+                <div class="row align-items-center">
+                    <div class="col-6">
+                            <input type="text" class="form-control" id="current_index_textbox">
+                    </div>
+                    <div class="col-6">
+                            / <span id="total_image_number_span">0</span>
+                    </div>
+                </div>
+                
+                
+            </div>
+        </div>
+
+    </div>
+    <div style="height:80%" align="center">
+        <div id="main_container" class="container" style="height:100%">
+            <div class="row align-items-center" style="height:100%">
+                <div class="col">
+                    <button class="btn btn-primary" id="go_prev_btn"><</button>
+
+                </div>
+                <div class="col-8" style="height:100%">
+                    <canvas id="myCanvas" resize="true" style="height:100%;border:2px solid black"></canvas>
+                </div>
+                <div class="col vcenter">
+                    <button class="btn btn-primary" id="go_next_btn">></button>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <div class="container" style="height:10%">
+
+        <div class="row align-items-center" style="height:100%">
+            <div class="col-2">
+                <button type="button" class="btn btn-primary" id="convert_btn">convert</button>
+            </div>
+            <div class="col-8" align="center">
+                <span class="align-middle">Page down: next image | Page up: previous image</span>
+
+            </div>
+            <div class="col-2">
+                <button class="btn btn-success" id="manual_save_btn">save</button>
+                <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Auto saving for each image will only be performed with page-down and page-up. Using Slide bar will not save progress">
+                    Caution
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script src="{%static 'js/jquery.min.js'%}"></script>
+    <script src="{%static 'js/popper.min.js'%}"></script>
+    <script src="{%static 'js/bootstrap.min.js'%}"></script>
+
+    <script type="text/javascript" src="{% static 'js/paper-full.js'%}"></script>
+    <script type="text/paperscript" src="{%static 'js/myscript.js'%}" canvas="myCanvas"></script>
+    <script type="text/javascript" src="{%static 'js/general.js'%}"></script>
+</body>
+
+</html>
