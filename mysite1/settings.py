@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'work',
     'channels',
     'bbxviewer',
+    'mainpage',
 ]
 
 MIDDLEWARE = [

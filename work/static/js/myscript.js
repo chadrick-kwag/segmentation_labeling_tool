@@ -132,9 +132,9 @@ $.ajaxSetup({
 
 
 
-document.SERVER_BASE_ADDR = window.location.origin
+document.SERVER_BASE_ADDR = window.location.origin +"/work"
 
-var SERVER_BASE_ADDR = window.location.origin
+var SERVER_BASE_ADDR = window.location.origin + "/work"
 
 function fetch_total_image_number() {
    
