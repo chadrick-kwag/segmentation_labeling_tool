@@ -1,4 +1,4 @@
-#  Chadrick's datset labeling web tools
+#  Chadrick's dataset labeling web tools
 
 a very simple/rought version for prototype.
 currently supports
