@@ -1,6 +1,9 @@
-# segmentation labeling tool
+#  Chadrick's datset labeling web tools
 
-a very simple/rought version for prototype
+a very simple/rought version for prototype.
+currently supports
+- single class segmentation labeling
+- bounding box viewer
 
 
 ![web interface sample](/docs/web_interface_screenshot.png)
@@ -51,15 +54,26 @@ by default it should run on port 8000. If you wish to allow LAN network to acces
 $ python manage.py runserver 0.0.0.0:8000
 ```
 
+the command above has been prepared in `startserver.sh` files so the user may try this instead:
+```
+$ source startserver.sh
+```
 
 
 ### 5. open web browser and start labeling. 
 
 - since the default port is 8000, open a web browser and go to `http://localhost:8000`
-- checkout **How to use the web interface** for more details on how to use the web interface
+- check out the `How to use ~` sections for more information.
 
 
-## How to use the web interface
+## How to use bbxViewer
+
+- May navigate through the images along with the bounding boxes showing on top of the images.
+- For a detailed API, check out the docs.
+
+
+
+## How to use Segmentation Labeing tool
 
 ### navigation
 
