@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'channels',
     'bbxviewer',
     'mainpage',
+    'bbox_labeling',
 ]
 
 MIDDLEWARE = [

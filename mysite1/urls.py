@@ -20,6 +20,7 @@ urlpatterns = [
     path('sgmtool/', include('work.urls')),
     path('admin/', admin.site.urls),
     path('bbxviewer/',include('bbxviewer.urls')),
-    path('',include('mainpage.urls'))
+    path('',include('mainpage.urls')),
+    path('bbxlabeling', include('bbox_labeling.urls'))
     
 ]
