@@ -11,3 +11,8 @@ $("#go_to_bbxviewer_btn").click(function (){
     var bbxviewer_url = SERVER_BASE_ADDR + "/bbxviewer"
     location.href = bbxviewer_url
 })
+
+$("#go_to_bboxlabeling_btn").click(function (){
+    var bbxviewer_url = SERVER_BASE_ADDR + "/bbxlabeling"
+    location.href = bbxviewer_url
+})
