@@ -38,6 +38,8 @@ var total_image_count = 0
 var label_good_color = "green"
 var label_notdone_color = "red"
 
+var sb_timer = null
+
 
 function adjust_canvas_size() {
 
@@ -521,21 +523,29 @@ function save_current_progress() {
 
 function sb_save_successful() {
     $("#status_bar").empty()
-    $("#status_bar").append("<p>save successful</p>")
+    sb_msg("save successful")
 }
 
 function sb_save_failed() {
     $("#status_bar").empty()
-    $("#status_bar").append("<p>save failed</p>")
+    sb_msg("save failed")
 
 }
 
 function sb_msg(msg) {
+
+    if (sb_timer != null) {
+        clearTimeout(sb_timer)
+    }
+
     sb_empty()
     htmlmsg = "<p>" + msg + "</p>"
     $("#status_bar").append(htmlmsg)
 
+    sb_timer = setTimeout(sb_empty, 3000)
+
 }
+
 
 function sb_loading_icon() {
     sb_empty()

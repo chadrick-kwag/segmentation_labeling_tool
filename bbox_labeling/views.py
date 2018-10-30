@@ -40,8 +40,10 @@ def main(request):
 
 @csrf_exempt
 def save_progress(request):
+    print("inside save_progress")
     postdata = request.body.decode("utf-8")
 
+    print("creating postdata")
     postdata = json.loads(postdata)
     # print(postdata)
 
@@ -56,10 +58,12 @@ def save_progress(request):
     postdata["imgfile"] = imgfile
 
     imgpath = os.path.join(img_dirpath, imgfile)
-
+    print("reading django imagefile")
     django_imgfile = ImageFile(open(imgpath, 'rb'))
     img_w = django_imgfile.width
     img_h = django_imgfile.height
+
+    print("setting img_w and img_h in postdata")
 
     postdata["img_w"] = img_w
     postdata["img_h"] = img_h
@@ -67,12 +71,15 @@ def save_progress(request):
     save_json_filename ="{}.json".format(imgbasename)
     save_json_filepath = os.path.join(save_dirpath, save_json_filename)
 
+    print("wrriting to json file")
     with open(save_json_filepath, 'w') as fd:
-        json.dump(postdata, fd)
+        # json.dump(postdata, fd)
+        fd.write(json.dumps(postdata)+"\n")
 
+    print("adding to label_files_dict")
     label_files_dict[imgbasename] = save_json_filename
 
-
+    print("returnign http response")
     return HttpResponse(status=200)
 
 
@@ -110,7 +117,7 @@ def fetchprogress(request, imgno):
     sel_imgfile = img_files[imgno]
 
     imgbasename, _ = os.path.splitext(sel_imgfile)
-
+    print("fetching savefile from label_files_dict")
     fetched_save_file = label_files_dict.get(imgbasename, None)
 
     if fetched_save_file is None:
@@ -119,9 +126,11 @@ def fetchprogress(request, imgno):
         return JsonResponse(retjson)
 
     fetched_save_filepath = os.path.join(save_dirpath, fetched_save_file)
+    print("fetched_save_filepath:{}".format(fetched_save_filepath))
 
     with open(fetched_save_filepath, 'r') as fd:
-        retjson = json.load(fd)
+        # retjson = json.load(fd)
+        retjson = json.loads(fd.read())
         retjson["success"] = True
     
     return JsonResponse(retjson)
