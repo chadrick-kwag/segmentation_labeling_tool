@@ -424,6 +424,9 @@ function hide_popupbox() {
 
 
 $("#bbox_value").keypress(function(e) {
+
+    e.stopPropagation()
+
     console.log("inside bbox_value's keypress")
     console.log(e)
     if (e.keyCode == 13) {
@@ -465,6 +468,8 @@ function load_char_value_in_popupbox(given_selected_path) {
 }
 
 function save_current_progress() {
+
+    sb_save_processing()
 
 
     var savedata = new Object()
@@ -514,8 +519,9 @@ function save_current_progress() {
             console.log("save success")
             sb_save_successful()
         },
-        failure: function(err) {
+        error: function(req, err) {
             console.log(err)
+            sb_save_failed()
 
         }
     })
@@ -530,6 +536,11 @@ function sb_save_failed() {
     $("#status_bar").empty()
     sb_msg("save failed")
 
+}
+
+function sb_save_processing() {
+    sb_empty()
+    $("#status_bar").append("<i class='fa fa-spinner fa-spin '></i> saving...")
 }
 
 function sb_msg(msg) {
@@ -630,7 +641,7 @@ function fetch_progress(imgno) {
         url: targeturl,
         type: "get",
         success: function(data) {
-
+            console.log(data)
             if (!data.success) {
                 restore_paths([])
             } else {
@@ -639,8 +650,9 @@ function fetch_progress(imgno) {
 
             update_stats()
         },
-        failure: function(e) {
-            sb_msg("failed to fetch saved label data")
+        error: function(req, e) {
+            console.log("inside fetch_progress error")
+            sb_msg("failed to load saved data")
         }
 
     })
