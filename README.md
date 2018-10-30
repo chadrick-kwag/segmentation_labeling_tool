@@ -72,6 +72,7 @@ $ source startserver.sh
 - check out the `How to use ~` sections for more information.
 
 ## Docs for each tool
+
 - [segmentation tool](/docs/segmentation_tool_readme.md)
-- [bbxViewer](/docs/bbxviewre_readme.md)
+- [bbxViewer](/docs/bbxviewer_readme.md)
 - [bbox labeling](/docs/bbox_labeling_readme.md)
