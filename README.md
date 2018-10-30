@@ -72,11 +72,6 @@ $ source startserver.sh
 - check out the `How to use ~` sections for more information.
 
 ## Docs for each tool
-- [How to use segmentation tool](/docs/segmentation_tool_readme.md)
-
-## How to use bbxViewer
-
-- May navigate through the images along with the bounding boxes showing on top of the images.
-- For a detailed API, check out the docs.
-
-
+- [segmentation tool](/docs/segmentation_tool_readme.md)
+- [bbxViewer](/docs/bbxviewre_readme.md)
+- [bbox labeling](/docs/bbox_labeling_readme.md)
