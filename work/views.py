@@ -9,11 +9,25 @@ import os, json
 
 filename_map={}
 
+def make_dir_is_not_exist(dirpath):
+    if not os.path.exists(dirpath):
+        os.makedirs(dirpath)
+
 ## init
 imagedirpath = os.path.join(STATIC_DIR,'images')
 savedirpath = os.path.join(STATIC_DIR,'saves')
+
+make_dir_is_not_exist(imagedirpath)
+make_dir_is_not_exist(savedirpath)
+
+
 filelist = os.listdir(imagedirpath)
 filelist = sorted(filelist)
+
+
+
+
+
 
 for i, filename in enumerate(filelist):
     filename_map[i] = filename

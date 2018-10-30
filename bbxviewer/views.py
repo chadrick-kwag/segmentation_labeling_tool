@@ -7,11 +7,18 @@ from mysite1.settings import STATIC_DIR
 import os , json
 
 
+def make_dir_if_not_exist(dirpath):
+    if not os.path.exists(dirpath):
+        os.makedirs(dirpath)
+
 bbxviewer_static_dir = os.path.join(STATIC_DIR,"bbxviewer")
 
 
 imagedirpath = os.path.join(bbxviewer_static_dir,'images')
 labeldirpath = os.path.join(bbxviewer_static_dir, 'labels')
+
+make_dir_if_not_exist(imagedirpath)
+make_dir_if_not_exist(labeldirpath)
 
 imgfilelist = os.listdir(imagedirpath)
 imgfilelist = sorted(imgfilelist)
