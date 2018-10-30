@@ -510,11 +510,40 @@ function save_current_progress() {
         contentType: "application/json;char-set",
         success: function(data) {
             console.log("save success")
+            sb_save_successful()
         },
         failure: function(err) {
             console.log(err)
+
         }
     })
+}
+
+function sb_save_successful() {
+    $("#status_bar").empty()
+    $("#status_bar").append("<p>save successful</p>")
+}
+
+function sb_save_failed() {
+    $("#status_bar").empty()
+    $("#status_bar").append("<p>save failed</p>")
+
+}
+
+function sb_msg(msg) {
+    sb_empty()
+    htmlmsg = "<p>" + msg + "</p>"
+    $("#status_bar").append(htmlmsg)
+
+}
+
+function sb_loading_icon() {
+    sb_empty()
+    $("#status_bar").append("<i class='fa fa-spinner fa-spin '></i>")
+}
+
+function sb_empty() {
+    $("#status_bar").empty()
 }
 
 $("#manual_save_btn").click(function(e) {
@@ -599,9 +628,11 @@ function fetch_progress(imgno) {
             }
 
             update_stats()
-
-
+        },
+        failure: function(e) {
+            sb_msg("failed to fetch saved label data")
         }
+
     })
 }
 
@@ -614,6 +645,8 @@ function check_is_imgno_ok(imgno) {
 
 
 function load_imgno(imgno) {
+
+    sb_loading_icon()
 
     if (!check_is_imgno_ok(imgno)) {
         return // do nothing
@@ -687,7 +720,9 @@ function restore_paths(received_path_list) {
 
     }
 
-
+    // this is the final stage of loading sequence
+    console.log("calling sb_emtpy after restore path")
+    sb_empty()
 
 }
 
