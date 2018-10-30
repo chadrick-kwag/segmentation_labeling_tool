@@ -123,6 +123,7 @@ def fetchprogress(request, imgno):
     if fetched_save_file is None:
         retjson = {}
         retjson["success"] = False
+        retjson["img_no"] = imgno
         return JsonResponse(retjson)
 
     fetched_save_filepath = os.path.join(save_dirpath, fetched_save_file)
@@ -132,6 +133,8 @@ def fetchprogress(request, imgno):
         # retjson = json.load(fd)
         retjson = json.loads(fd.read())
         retjson["success"] = True
+        retjson["img_no"] = imgno
+        
     
     return JsonResponse(retjson)
 

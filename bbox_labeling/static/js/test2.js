@@ -642,6 +642,11 @@ function fetch_progress(imgno) {
         type: "get",
         success: function(data) {
             console.log(data)
+            if (data.img_no != current_img_index) {
+                // fetch progress is outdated. ignore it.
+                return
+            }
+
             if (!data.success) {
                 restore_paths([])
             } else {
@@ -668,11 +673,13 @@ function check_is_imgno_ok(imgno) {
 
 function load_imgno(imgno) {
 
-    sb_loading_icon()
+
 
     if (!check_is_imgno_ok(imgno)) {
         return // do nothing
     }
+
+    sb_loading_icon()
 
     attempt_img_index = imgno
 
