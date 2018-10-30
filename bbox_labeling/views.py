@@ -126,21 +126,52 @@ def fetchprogress(request, imgno):
     
     return JsonResponse(retjson)
 
+def convert_check(request):
+    retjson={}
+    if not check_if_label_all_done():
+        retjson["check_passed"]=False 
+        return JsonResponse(retjson)
+    
+    retjson["check_passed"] = True
+
+    return JsonResponse(retjson)
 
 def convert_test(request):
 
-    result_dirpath = convert_saves_to_annotations()
-
     retjson={}
+    
+    result_dirpath = convert_saves_to_annotations()
+   
     retjson['result_dirpath'] = result_dirpath
 
     return JsonResponse(retjson)
     
+def check_if_label_all_done():
+    if len(label_files_dict)!= len(img_files):
+        return False
+    else:
+        return True
+
+def fetch_dirname_available(dirpath, dirbasename):
+    firstcheck = os.path.join(dirpath, dirbasename)
+    if not os.path.exists(firstcheck):
+        return firstcheck
+    
+    for i in range(100):
+        iterable_dirbasename = "{}_{:02d}".format(dirbasename,i)
+        newdirpath = os.path.join(dirpath, iterable_dirbasename)
+        if not os.path.exists(newdirpath):
+            return newdirpath
+    
+    raise Exception("unable to create dir with dirbasename: {}".format(dirbasename))
 
 
 def convert_saves_to_annotations():
     timestamp = datetime.datetime.now().strftime("%y%m%d_%H%M")
-    target_annotation_dirpath = os.path.join(annotation_output_dirpath, timestamp)
+    # target_annotation_dirpath = os.path.join(annotation_output_dirpath, timestamp)
+
+    target_annotation_dirpath = fetch_dirname_available(annotation_output_dirpath, timestamp)
+
     os.makedirs(target_annotation_dirpath)
 
     for _,v in label_files_dict.items():

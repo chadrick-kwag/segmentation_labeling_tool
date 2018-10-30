@@ -393,17 +393,7 @@ function onKeyDown(event) {
     if (event.key == 's') {
         save_current_progress()
     }
-    if (event.key == 'd') {
-        var targeturl = SERVER_BASE_ADDR + "/convert"
-        $.ajax({
-            url: targeturl,
-            type: "get",
-            success: function(d) {
-                console.log("debug success")
-                console.log(d)
-            }
-        })
-    }
+
 }
 
 
@@ -731,6 +721,46 @@ $("#inverse_triangle_spchar_item").click(function(e) {
     $("#bbox_value").val('∇')
 })
 
+$("#convert_btn").click(function(e) {
+    attempt_convert()
+})
+
+
+function attempt_convert() {
+    var targeturl = SERVER_BASE_ADDR + "/convert_check"
+    $.ajax({
+        url: targeturl,
+        type: "get",
+        success: function(d) {
+            if (!d.check_passed) {
+                $("#testmodal").modal('show')
+            } else {
+                main_convert()
+            }
+
+        }
+    })
+}
+
+function main_convert() {
+    var targeturl = SERVER_BASE_ADDR + "/convert"
+    $.ajax({
+        url: targeturl,
+        type: "get",
+        success: function(d) {
+            if (d.result_dirpath) {
+                alert("convert result saved in : " + d.result_dirpath)
+            }
+        }
+
+
+    })
+}
+
+$("#force_convert_btn").click(function(e) {
+    $("#testmodal").modal("hide")
+    main_convert()
+})
 
 function update_current_img_index() {
     $("#current_index_textbox").val(current_img_index + 1)

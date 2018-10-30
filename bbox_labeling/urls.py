@@ -9,6 +9,7 @@ urlpatterns = [
     path('/img/<int:imgno>',views.get_image, name='get_image'),
     path('/fetchprogress/<int:imgno>',views.fetchprogress, name='fetchprogress'),
     path('/save', views.save_progress, name="save_progress"),
-    path('/convert', views.convert_test, name="convert_test")
+    path('/convert', views.convert_test, name="convert_test"),
+    path('/convert_check', views.convert_check, name="convert_check")
 
 ]
