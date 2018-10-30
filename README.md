@@ -4,7 +4,13 @@ a very simple/rought version for prototype.
 currently supports
 - single class segmentation labeling
 - bounding box viewer
+- bouding box labeling
 
+![mainpage](/docs/mainpage.png)
+
+![bbox labeling screenshot](/docs/bbox_labeling_screenshot.png)
+
+![bbox viewer screenshot](/docs/bboxviewer_screenshot.png)
 
 ![web interface sample](/docs/web_interface_screenshot.png)
 
@@ -16,7 +22,7 @@ It is recommended to follow this development environment as much as possible.
 
 - Ubuntu 18.04.1 LTS
 - python3(3.6.5)
-- Firefox 62.0 64-bit / Chrome Version 69.0.3497.100 (Official Build) (64-bit)
+- Chrome Version 69.0.3497.100 (Official Build) (64-bit)
 
 
 ## Caution
@@ -65,6 +71,8 @@ $ source startserver.sh
 - since the default port is 8000, open a web browser and go to `http://localhost:8000`
 - check out the `How to use ~` sections for more information.
 
+## Docs for each tool
+- [How to use segmentation tool](/docs/segmentation_tool_readme.md)
 
 ## How to use bbxViewer
 
@@ -72,30 +80,3 @@ $ source startserver.sh
 - For a detailed API, check out the docs.
 
 
-
-## How to use Segmentation Labeing tool
-
-### navigation
-
-- With `PageUp` and `PageDown` key user can navigate through the image to label. When navigating with this method, labeling progress will be saved automatically.
-- The user can navigate through images with the slidebar on the top as well. When navigating with this method, labeling progress will **NOT** be saved automatically.
-- Left and Right navigation buttons are available for mobile devices.
-- On the top-right, there is a slide bar where the user can navigate to a specific point at once
-- For fine navigation, the user can insert a valid index number in the textbox to move to a specific image at once.
-
-
-### draw & edit
-- draw the area by pushing mouse down, dragging around the area, and releasing the mouse click.
-- user can select the area by clicking on the edge of a path.
-- once a path is selected, it can be deleted by pressing the `delete` button
-- multiple paths can be selected simultaneously
-- on the top, there are three buttons for editing paths. These are implemented for mobile devices.
-- user can save the current image's labeling progress manually by pressing `s` button.
-- on the bottom, there is a manual save button for mobile devices. manually triggering save is useful when the user has finished labeling the last image.
-
-### converting
-- When labeling is all done and the user is ready to convert all the labeling data into actual masked `.png` files, click the `convert` button on bottom-left of the screen.
-- If labeling is not done for all images, or some labels are empty, then an alert message will appear.
-- If labeling is done without any problems, then the conversion of label saves to png files will start. The screen will show the progress.
-- Once the conversion is done, the progress screen will disappear automatically.
-- After the convserion is done, please check the converted png files under the `/static/output` directory.
