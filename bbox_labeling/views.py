@@ -4,17 +4,21 @@ from django.views.decorators.csrf import csrf_exempt
 from mysite1.settings import STATIC_DIR
 from django.core.files.images import ImageFile
 
-import json, os
+import json, os, datetime
 
 static_dirpath = os.path.join(STATIC_DIR, "bbox_labeling")
 img_dirpath = os.path.join(static_dirpath, "images")
 save_dirpath = os.path.join(static_dirpath, "saves")
+annotation_output_dirpath = os.path.join(static_dirpath, "annotations")
 
 if not os.path.exists(img_dirpath):
     os.makedirs(img_dirpath)
 
 if not os.path.exists(save_dirpath):
     os.makedirs(save_dirpath)
+
+if not os.path.exists(annotation_output_dirpath):
+    os.makedirs(annotation_output_dirpath)
 
 
 img_files = os.listdir(img_dirpath)
@@ -121,4 +125,78 @@ def fetchprogress(request, imgno):
         retjson["success"] = True
     
     return JsonResponse(retjson)
+
+
+def convert_test(request):
+
+    result_dirpath = convert_saves_to_annotations()
+
+    retjson={}
+    retjson['result_dirpath'] = result_dirpath
+
+    return JsonResponse(retjson)
+    
+
+
+def convert_saves_to_annotations():
+    timestamp = datetime.datetime.now().strftime("%y%m%d_%H%M")
+    target_annotation_dirpath = os.path.join(annotation_output_dirpath, timestamp)
+    os.makedirs(target_annotation_dirpath)
+
+    for _,v in label_files_dict.items():
+        label_filepath = os.path.join(save_dirpath, v)
+        with open(label_filepath) as fd:
+            jsondata = json.load(fd)
+        
+        annot_json={}
+        annot_json['imgfile'] = jsondata['imgfile']
+        annot_json['img_h'] = jsondata['img_h']
+        annot_json['img_w'] = jsondata['img_w']
+
+        path_list = jsondata['path_list']
+
+
+        rect_list =[]
+
+        for path_wrapper in path_list:
+            char_value = path_wrapper["char_value"]
+            path_array = path_wrapper["path"]
+            realpathobj = path_array[1]
+            segments = realpathobj['segments']
+            x1,y1,x2,y2 = parse_segments_to_diagrectcoords(segments)
+
+            rect = {}
+            rect["x1"] = x1
+            rect["y1"] = y1
+            rect["x2"] = x2
+            rect["y2"] = y2
+            rect["char_value"] = char_value
+
+            rect_list.append(rect)
+        
+        annot_json["bboxes"] = rect_list
+
+        # using the same basename 
+        annot_file_path = os.path.join(target_annotation_dirpath, v)
+        with open(annot_file_path, 'w') as fd:
+            json.dump(annot_json, fd)
+
+    return target_annotation_dirpath
+    
+
+
+
+
+def parse_segments_to_diagrectcoords(segments):
+    topleft = segments[1]
+    bottomright = segments[3]
+
+    x1 = topleft[0]
+    y1 = topleft[1]
+
+    x2 = bottomright[0]
+    y2 = bottomright[1]
+
+    return x1,y1,x2,y2
+
 

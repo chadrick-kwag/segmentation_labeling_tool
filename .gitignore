@@ -7,4 +7,3 @@ static/*.zip
 work/*.png
 db.sqlite3
 .vscode
-static/bbox_labeling

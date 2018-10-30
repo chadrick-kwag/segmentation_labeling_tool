@@ -393,6 +393,17 @@ function onKeyDown(event) {
     if (event.key == 's') {
         save_current_progress()
     }
+    if (event.key == 'd') {
+        var targeturl = SERVER_BASE_ADDR + "/convert"
+        $.ajax({
+            url: targeturl,
+            type: "get",
+            success: function(d) {
+                console.log("debug success")
+                console.log(d)
+            }
+        })
+    }
 }
 
 
