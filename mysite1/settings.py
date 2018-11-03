@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'bbxviewer',
     'mainpage',
     'bbox_labeling',
+    'bbox_pairing_vis',
 ]
 
 MIDDLEWARE = [
