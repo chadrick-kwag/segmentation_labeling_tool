@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'mainpage',
     'bbox_labeling',
     'bbox_pairing_vis',
+    'image_classifier'
 ]
 
 MIDDLEWARE = [

@@ -22,3 +22,9 @@ $("#go_to_bbox_pairing_vis").click(function (){
     var targeturl = SERVER_BASE_ADDR + "/bbox_pairing_vis"
     location.href = targeturl
 })
+
+
+$("#go_to_image_classifier").click(function (){
+    var targeturl = SERVER_BASE_ADDR + "/imageclassifier"
+    location.href = targeturl
+})

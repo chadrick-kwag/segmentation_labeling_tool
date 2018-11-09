@@ -22,6 +22,7 @@ urlpatterns = [
     path('bbxviewer/',include('bbxviewer.urls')),
     path('',include('mainpage.urls')),
     path('bbxlabeling/', include('bbox_labeling.urls')),
-    path('bbox_pairing_vis/', include('bbox_pairing_vis.urls'))
+    path('bbox_pairing_vis/', include('bbox_pairing_vis.urls')),
+    path('imageclassifier/', include('image_classifier.urls'))
     
 ]
